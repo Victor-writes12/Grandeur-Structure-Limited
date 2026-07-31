@@ -366,7 +366,7 @@ section { position: relative; }
 .hero-img {
   width: 100%; height: 100%;
   object-fit: cover;
-  animation: kenBurns 22s ease-in-out infinite alternate;
+  animation: kenBurns 20s ease-in-out infinite alternate;
 }
 @keyframes kenBurns {
   from { transform: scale(1) translate(0,0); }
