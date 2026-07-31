@@ -4,13 +4,13 @@
 :root {
   --charcoal: #1C1C1C;
   --ivory: #F8F6F2;
-  --gold: #C7A16A;
-  --gold-light: #E4C899;
+ --gold: #C77B4E;
+--gold-light: #E3A87A;
   --white: #FFFFFF;
   --rich-black: #111111;
   --stone: #ECE9E3;
   --text-dark: #2B2B2B;
-  --text-muted: #6b6660;
+  --text-muted: #ab9a86;
 
   --font-display: 'Cormorant Garamond', serif;
   --font-body: 'Inter', sans-serif;
@@ -21,7 +21,7 @@
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   --shadow-soft: 0 20px 60px rgba(28, 28, 28, 0.08);
-  --shadow-gold: 0 10px 30px rgba(199, 161, 106, 0.35);
+  --shadow-gold: 0 10px 30px rgba(199, 123, 78, 0.35);
 }
 
 /* ==========================================================================
@@ -384,7 +384,7 @@ section { position: relative; }
   max-width: 820px;
   padding: 0 24px;
 }
-.hero-eyebrow { color: var(--gold-light); }
+.hero-eyebrow { color: var(--White); }
 .hero-title {
   font-size: clamp(2.6rem, 7vw, 5.2rem);
   color: var(--white);
@@ -470,14 +470,14 @@ section { position: relative; }
 }
 .about-quote-card p {
   font-family: var(--font-display);
-  font-style: italic;
+  font-style: normal;
   font-size: 1.15rem;
   line-height: 1.4;
   margin-bottom: 10px;
 }
 .about-quote-card span {
   font-family: var(--font-btn);
-  font-size: 0.68rem;
+  font-size: 0.70rem;
   letter-spacing: 1px;
   color: var(--gold-light);
   text-transform: uppercase;
@@ -493,8 +493,8 @@ section { position: relative; }
 }
 .stat-number {
   font-family: var(--font-display);
-  font-size: 2.4rem;
-  color: var(--gold);
+  font-size: 2.8rem;
+  color: var(--rich-black);
   display: block;
   line-height: 1;
 }
@@ -509,13 +509,13 @@ section { position: relative; }
   margin-top: 18px;
   font-size: 0.78rem;
   color: var(--text-muted);
-  opacity: 0.7;
-  font-style: italic;
+  opacity: 0.6;
+  font-style: normal;
 }
 
-/* ==========================================================================
+/* ==================
    SERVICES
-   ========================================================================== */
+   =================== */
 .services { padding: 120px 0; background: var(--ivory); }
 .services-grid {
   margin-top: 60px;
