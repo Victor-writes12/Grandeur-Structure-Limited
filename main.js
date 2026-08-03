@@ -214,10 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowRight') lightboxNext.click();
   });
 
-  // === CONTACT FORM (EmailJS placeholder) ===
-  // To activate real sending: include the EmailJS SDK script tag in index.html, then
-  // replace the placeholder IDs below with your own EmailJS Service ID, Template ID
-  // and Public Key from https://www.emailjs.com/
+  // === CONTACT FORM (EmailJS placeholder) 
   const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
   const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
   const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
