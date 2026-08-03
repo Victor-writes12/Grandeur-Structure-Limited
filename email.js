@@ -43,7 +43,6 @@
     }
   };
 
-  // Optional: auto-init if a global placeholder PUBLIC key is available
   if (window.EMAILJS_PUBLIC_KEY && window.EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
     window.emailHelper.init(window.EMAILJS_PUBLIC_KEY).catch(()=>{});
   }
