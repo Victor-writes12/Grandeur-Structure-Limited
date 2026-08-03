@@ -213,8 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowLeft') lightboxPrev.click();
     if (e.key === 'ArrowRight') lightboxNext.click();
   });
-
-  // === CONTACT FORM (EmailJS placeholder) 
+  // === CONTACT FORM ===
   const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
   const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
   const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
