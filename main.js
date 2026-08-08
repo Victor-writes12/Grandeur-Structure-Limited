@@ -149,17 +149,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, stepTime);
   }
 
-  // === CURSOR GLOW (desktop only) ===
-  const cursorGlow = document.getElementById('cursorGlow');
-  if (window.matchMedia('(min-width: 1024px)').matches) {
-    document.addEventListener('mousemove', (e) => {
-      cursorGlow.style.left = e.clientX + 'px';
-      cursorGlow.style.top = e.clientY + 'px';
-      cursorGlow.classList.add('active');
-    });
-    document.addEventListener('mouseleave', () => cursorGlow.classList.remove('active'));
-  }
-
   // === BUTTON RIPPLE EFFECT ===
   document.querySelectorAll('.btn-ripple').forEach(btn => {
     btn.addEventListener('click', function (e) {
