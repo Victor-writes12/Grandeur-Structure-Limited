@@ -1,6 +1,54 @@
 // ===============================
 // GRANDEUR STRUCTURES — MAIN JS
 //===================
+// === EMAILJS LOADER ===
+// Loads the EmailJS SDK once and exposes a small helper the contact form uses below.
+(function () {
+  const SDK_SRC = 'https://cdn.emailjs.com/dist/email.min.js';
+
+  let sdkReady = new Promise((resolve, reject) => {
+    if (window.emailjs && window.emailjs.send) return resolve(window.emailjs);
+
+    const s = document.createElement('script');
+    s.src = SDK_SRC;
+    s.async = true;
+    s.defer = true;
+    s.onload = () => {
+      if (window.emailjs && window.emailjs.send) {
+        resolve(window.emailjs);
+      } else {
+        reject(new Error('EmailJS SDK loaded but `emailjs` not found'));
+      }
+    };
+    s.onerror = () => reject(new Error('Failed to load EmailJS SDK'));
+    document.head.appendChild(s);
+  });
+
+  window.emailHelper = {
+    ready: sdkReady,
+    init(publicKey) {
+      return sdkReady.then((emailjs) => {
+        try { emailjs.init(publicKey); } catch (e) { /* ignore */ }
+        return emailjs;
+      });
+    },
+    sendForm(serviceId, templateId, formEl, publicKey) {
+      return sdkReady.then((emailjs) => {
+        if (publicKey) {
+          try { emailjs.init(publicKey); } catch (e) { /* ignore */ }
+        }
+        if (!emailjs || !emailjs.sendForm) {
+          return Promise.reject(new Error('EmailJS SDK not available'));
+        }
+        return emailjs.sendForm(serviceId, templateId, formEl, publicKey);
+      });
+    }
+  };
+
+  if (window.EMAILJS_PUBLIC_KEY && window.EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+    window.emailHelper.init(window.EMAILJS_PUBLIC_KEY).catch(() => {});
+  }
+})();
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -214,9 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'ArrowRight') lightboxNext.click();
   });
   // === CONTACT FORM ===
-  const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
-  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-  const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+  const EMAILJS_SERVICE_ID = 'service_87abpgf';
+  const EMAILJS_TEMPLATE_ID = 'template_tol0e18';
+  const EMAILJS_PUBLIC_KEY = 'lzMsVv6e9ocGTTpv0';
 
   const contactForm = document.getElementById('contactForm');
   const formNote = document.getElementById('formNote');
@@ -226,25 +274,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = contactForm.querySelector('.form-submit');
     const originalText = submitBtn.textContent;
 
-    if (window.emailjs && EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID') {
-      submitBtn.textContent = 'Sending...';
-      emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm, EMAILJS_PUBLIC_KEY)
-        .then(() => {
-          formNote.textContent = 'Thank you — your message has been sent. We will be in touch shortly.';
-          contactForm.reset();
-          submitBtn.textContent = originalText;
-        })
-        .catch(() => {
-          formNote.textContent = 'Something went wrong. Please email us directly at granduerstructures@gmail.com.';
-          submitBtn.textContent = originalText;
-        });
-    } else {
+    if (EMAILJS_SERVICE_ID === 'YOUR_SERVICE_ID') {
       // EmailJS not yet configured — friendly fallback so the form still feels responsive.
       formNote.textContent = 'Thanks for reaching out! Email sending isn\u2019t connected yet \u2014 please contact us directly at granduerstructures@gmail.com or WhatsApp +234 805 432 6246 in the meantime.';
       contactForm.reset();
+      return;
     }
-  });
 
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+
+    window.emailHelper.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm, EMAILJS_PUBLIC_KEY)
+      .then(() => {
+        formNote.textContent = 'Thank you — your message has been sent. We will be in touch shortly.';
+        contactForm.reset();
+      })
+      .catch(() => {
+        formNote.textContent = 'Something went wrong. Please email us directly at granduerstructures@gmail.com.';
+      })
+      .finally(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      });
+  });
   // === FOOTER YEAR ===
   document.getElementById('year').textContent = new Date().getFullYear();
 
