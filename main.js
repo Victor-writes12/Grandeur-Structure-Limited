@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.emailHelper.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm, EMAILJS_PUBLIC_KEY)
       .then(() => {
-        formNote.textContent = 'Thank you — your message has been sent. We will be in touch shortly.';
+        formNote.textContent = 'Thank you, your message has been sent. We will be in touch shortly.';
         contactForm.reset();
       })
       .catch(() => {
