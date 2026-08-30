@@ -78,22 +78,37 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', onScroll);
   onScroll();
 
-  // === MOBILE MENU ===
+    // === MOBILE MENU ===
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.addEventListener('click', () => {
-    const isOpen = mobileMenu.classList.toggle('open');
-    hamburger.classList.toggle('open');
-    hamburger.setAttribute('aria-expanded', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  });
-  document.querySelectorAll('.mobile-link, .mobile-cta').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu.classList.remove('open');
-      hamburger.classList.remove('open');
-      document.body.style.overflow = '';
+  const scrim = document.getElementById('mobileMenuScrim');
+  const closeBtn = document.getElementById('mobileMenuClose');
+
+  function openMobileMenu() {
+    mobileMenu.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    if (scrim) scrim.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    if (scrim) scrim.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.contains('open') ? closeMobileMenu() : openMobileMenu();
     });
-  });
+    document.querySelectorAll('.mobile-link, .mobile-cta').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+    if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
+    if (scrim) scrim.addEventListener('click', closeMobileMenu);
+  }
 
   // === SCROLL REVEAL (IntersectionObserver) ===
   const revealEls = document.querySelectorAll('.reveal');
@@ -286,8 +301,9 @@ document.addEventListener('DOMContentLoaded', () => {
         submitBtn.disabled = false;
       });
   });
-  // === FOOTER YEAR ===
-  document.getElementById('year').textContent = new Date().getFullYear();
+
+   // === FOOTER YEAR ===
+  document.querySelectorAll('#year').forEach(el => { el.textContent = new Date().getFullYear(); });
 
   // === PAGE TRANSITION FOR INTERNAL ANCHOR LINKS (subtle fade, native smooth-scroll handles motion) ===
   document.querySelectorAll('a[href^="#"]').forEach(link => {
@@ -303,4 +319,49 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // === COOKIE CONSENT BANNER ===
+  const cookieBanner = document.getElementById('cookieBanner');
+  if (cookieBanner) {
+    const CONSENT_KEY = 'gs_cookie_consent';
+    const accept = document.getElementById('cookieAccept');
+    const decline = document.getElementById('cookieDecline');
+
+    const hasConsent = () => {
+      try { return !!localStorage.getItem(CONSENT_KEY); }
+      catch (e) { return true; } // if storage is blocked, don't keep nagging
+    };
+    const setConsent = (value) => {
+      try { localStorage.setItem(CONSENT_KEY, value); } catch (e) { /* ignore */ }
+    };
+
+    if (!hasConsent()) {
+      setTimeout(() => cookieBanner.classList.add('show'), 1200);
+    }
+    if (accept) {
+      accept.addEventListener('click', () => {
+        setConsent('accepted');
+        cookieBanner.classList.remove('show');
+      });
+    }
+    if (decline) {
+      decline.addEventListener('click', () => {
+        setConsent('declined');
+        cookieBanner.classList.remove('show');
+      });
+    }
+  }
+
 });
+
+  // === BACK TO TOP ===
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    const toggleBackToTop = () => {
+      backToTop.classList.toggle('show', window.scrollY > 500);
+    };
+    window.addEventListener('scroll', toggleBackToTop, { passive: true });
+    toggleBackToTop();
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
