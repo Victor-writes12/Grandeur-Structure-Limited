@@ -319,40 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // === COOKIE CONSENT BANNER ===
-  const cookieBanner = document.getElementById('cookieBanner');
-  if (cookieBanner) {
-    const CONSENT_KEY = 'gs_cookie_consent';
-    const accept = document.getElementById('cookieAccept');
-    const decline = document.getElementById('cookieDecline');
-
-    const hasConsent = () => {
-      try { return !!localStorage.getItem(CONSENT_KEY); }
-      catch (e) { return true; } // if storage is blocked, don't keep nagging
-    };
-    const setConsent = (value) => {
-      try { localStorage.setItem(CONSENT_KEY, value); } catch (e) { /* ignore */ }
-    };
-
-    if (!hasConsent()) {
-      setTimeout(() => cookieBanner.classList.add('show'), 1200);
-    }
-    if (accept) {
-      accept.addEventListener('click', () => {
-        setConsent('accepted');
-        cookieBanner.classList.remove('show');
-      });
-    }
-    if (decline) {
-      decline.addEventListener('click', () => {
-        setConsent('declined');
-        cookieBanner.classList.remove('show');
-      });
-    }
-  }
-
-});
-
   // === BACK TO TOP ===
   const backToTop = document.getElementById('backToTop');
   if (backToTop) {
