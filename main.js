@@ -194,6 +194,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  
+  // === PROJECT IMAGE STRIP ===
+  const stripTrack = document.getElementById('stripTrack');
+  if (stripTrack) {
+    const stripImgs = Array.from(stripTrack.children);
+    stripImgs.forEach(img => {
+      const copy = img.cloneNode(true);
+      copy.alt = '';
+      copy.setAttribute('aria-hidden', 'true');
+      stripTrack.appendChild(copy);
+    });
+    // 5 seconds per image keeps the speed steady whatever the image count
+    stripTrack.style.setProperty('--strip-duration', (stripImgs.length * 5) + 's');
+  }
+
   // === LIGHTBOX ===
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');

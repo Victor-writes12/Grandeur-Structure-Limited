@@ -709,6 +709,43 @@ section { position: relative; }
 .project-gallery img:hover { transform: scale(1.04); }
 
 /* ==========================================================================
+   PROJECT IMAGE STRIP
+   ========================================================================== */
+.strip {
+  --strip-h: 320px;
+  padding: 56px 0;
+  background: var(--charcoal);
+}
+.strip-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.strip-track {
+  display: flex;
+  width: max-content;
+  animation: stripSlide var(--strip-duration, 60s) linear infinite;
+  will-change: transform;
+}
+.strip-viewport:hover .strip-track { animation-play-state: paused; }
+.strip-img {
+  flex: none;
+  height: var(--strip-h);
+  width: auto;
+  max-width: none;
+  margin-right: 16px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+@keyframes stripSlide {
+  from { transform: translate3d(-50%, 0, 0); }
+  to   { transform: translate3d(0, 0, 0); }
+}
+@media (max-width: 768px) { .strip { --strip-h: 240px; padding: 44px 0; } }
+@media (max-width: 480px) { .strip { --strip-h: 200px; } }
+@media (prefers-reduced-motion: reduce) { .strip-viewport { overflow-x: auto; } }
+
+/* ==========================================================================
    PORTFOLIO MASONRY
    ========================================================================== */
 .portfolio { padding: 60px 0 130px; }
